@@ -1,0 +1,11 @@
+* bd25cc1 CODE added in docs with photos of env
+* 56164f9 appendices added into docs
+* bf96677 Add PPO trainer configuration for car racing agent
+* f2e091f Add SAC trainer configuration for car racing agent
+* fd1b99b managed docs according supervisor review
+* 31146ca Tighten IPR sections 1.3, 3, 5 and address supervisor feedback
+* 26118d1 DOCUMENT CHECK
+* 3f5c4e6 PPO code update
+* bb1498e SAC DQN CODES INITIALS WITH COMPARISON
+* f9e3d78 Updated IPR
+* 9186a3b Initial commit without Library and large files
