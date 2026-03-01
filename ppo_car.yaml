@@ -1,0 +1,40 @@
+# =============================================
+# PPO Configuration - Car Racing
+# Run command: mlagents-learn ppo_car.yaml --run-id=PPO_Run1
+# =============================================
+
+behaviors:
+  CarAgent:
+    trainer_type: ppo        # Proximal Policy Optimization algorithm
+
+    hyperparameters:
+      learning_rate: 3.0e-4
+      learning_rate_schedule: linear   # Training ke saath rate kam hoti hai
+      batch_size: 64
+      buffer_size: 2048
+      beta: 5.0e-3             # Entropy coefficient (exploration)
+      epsilon: 0.2             # Clip parameter (PPO unique)
+      lambd: 0.95              # GAE lambda
+      num_epoch: 3             # Har buffer pe kitne passes
+
+    network_settings:
+      normalize: true
+      hidden_units: 256
+      num_layers: 2
+      vis_encode_type: simple
+
+    reward_signals:
+      extrinsic:
+        gamma: 0.99
+        strength: 1.0
+
+      curiosity:
+        gamma: 0.99
+        strength: 0.02
+        encoding_size: 256
+        learning_rate: 3.0e-4
+
+    max_steps: 1000000
+    time_horizon: 128          # PPO mein zyada horizon better hota hai
+    summary_freq: 10000
+    keep_checkpoints: 5
