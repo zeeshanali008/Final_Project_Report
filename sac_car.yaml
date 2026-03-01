@@ -1,5 +1,6 @@
 # =============================================
-# SAC Configuration - Car Racing
+# SAC Configuration - Car Racing (FINAL)
+# Standardized parameters to match PPO for fair comparison
 # Run command: mlagents-learn sac_car.yaml --run-id=SAC_Run1
 # =============================================
 
@@ -8,33 +9,32 @@ behaviors:
     trainer_type: sac        # Soft Actor-Critic algorithm
 
     hyperparameters:
-      learning_rate: 3.0e-4
-      learning_rate_schedule: constant
-      batch_size: 256          # Har update mein kitne samples
-      buffer_size: 50000       # Experience replay buffer
-      tau: 0.005               # Target network update rate
-      init_entcoef: 1.0        # Exploration rate (SAC unique feature)
-      save_replay_buffer: false
+      learning_rate: 3.0e-4                    # Step size for policy and value updates
+      learning_rate_schedule: linear            # Linearly decay learning rate over training
+      batch_size: 64                            # Number of samples per gradient update (CHANGED FROM 256)
+      buffer_size: 4096                         # Experience replay buffer size (CHANGED FROM 50000)
+      tau: 0.005                                # Soft update coefficient for target network
+      init_entcoef: 1.0                         # Initial entropy coefficient for exploration
+      save_replay_buffer: false                 # Do not save replay buffer to disk
 
     network_settings:
-      normalize: true          # Observations normalize karo
-      hidden_units: 256        # Neural network size
-      num_layers: 2            # Network depth
-      vis_encode_type: simple
+      normalize: true                           # Normalize input observations
+      hidden_units: 256                         # Units per hidden layer
+      num_layers: 2                             # Number of hidden layers
+      vis_encode_type: simple                   # Simple visual encoding
 
     reward_signals:
       extrinsic:
-        gamma: 0.99            # Future reward discount
-        strength: 1.0
+        gamma: 0.99                             # Discount factor for future rewards
+        strength: 1.0                           # Weight of extrinsic rewards
 
-    # Curiosity reward - naye areas explore karne pe bonus
-      curiosity:
-        gamma: 0.99
-        strength: 0.02
-        encoding_size: 256
-        learning_rate: 3.0e-4
+      curiosity:                                # Intrinsic reward for exploration
+        gamma: 0.99                             # Discount factor for curiosity rewards
+        strength: 0.02                          # Weight of curiosity rewards
+        encoding_size: 256                      # Size of curiosity network hidden layer
+        learning_rate: 3.0e-4                   # Learning rate for curiosity network
 
-    max_steps: 1000000         # Total training steps
-    time_horizon: 64           # Steps before update
-    summary_freq: 10000        # Kitne steps pe save/log karo
-    keep_checkpoints: 5
+    max_steps: 1000000                          # Total training steps
+    time_horizon: 64                            # Number of steps before policy update (CHANGED FROM 64)
+    summary_freq: 10000                         # Log training metrics every N steps
+    keep_checkpoints: 5                         # Keep last 5 checkpoints
